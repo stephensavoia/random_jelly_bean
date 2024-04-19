@@ -4,6 +4,18 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "text_VnDygU": {
+          "type": "text",
+          "settings": {
+            "heading": "STORE INFO",
+            "subtext": "<p>123 Jelly Street<br\/>Jelly Bean Valley, CL<br\/>J1B 2J3<br\/><br\/>Mon-Sat: 10am-6pm<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_VnDygU"
+      ],
       "settings": {
         "color_scheme": "scheme-2",
         "newsletter_enable": false,
