@@ -1,11 +1,14 @@
 <p>TESTING</p>
+{% for product in collections['all'].products %}
+  {{- product.title | link_to: product.url }}
+{% endfor %}
 
 {% schema %}
 {
-  "name": "Test Section",
+  "name": "Add Random Product",
   "presets": [
     {
-      "name": "Test Section"
+      "name": "Add Random Product"
     }
   ]
 }
