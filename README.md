@@ -1,0 +1,1 @@
+a Shopify theme block that adds a random product to the cart
