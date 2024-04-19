@@ -388,7 +388,8 @@
   },
   "platform_customizations": {
     "custom_css": [
-      ".footer-block__image-wrapper {width:175px; height:175px; background-color: white; display: flex; align-items: center; padding:5px; border-radius: 100%;}"
+      ".footer-block__image-wrapper {width: 175px; height: 175px; background-color: white; display: flex; align-items: center; padding: 5px; border-radius: 100%;}",
+      ".footer-block__details-content {font-size: 1.4rem;}"
     ]
   }
 }
