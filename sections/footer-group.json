@@ -11,10 +11,35 @@
             "heading": "STORE INFO",
             "subtext": "<p>123 Jelly Street<br\/>Jelly Bean Valley, MB<br\/>J1B 2J3<br\/><br\/>Mon-Sat: 10am-6pm<\/p>"
           }
+        },
+        "link_list_XEdxiB": {
+          "type": "link_list",
+          "settings": {
+            "heading": "QUICK LINKS",
+            "menu": "footer"
+          }
+        },
+        "text_khaEVB": {
+          "type": "text",
+          "settings": {
+            "heading": "ABOUT THE CODE",
+            "subtext": "<p>This development store demonstrates code that allows users to add a random product to their cart with the click of a button.<\/p>"
+          }
+        },
+        "image_BAkcTF": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/random-jelly-bean-logo.png",
+            "image_width": 175,
+            "alignment": "center"
+          }
         }
       },
       "block_order": [
-        "text_VnDygU"
+        "text_VnDygU",
+        "link_list_XEdxiB",
+        "text_khaEVB",
+        "image_BAkcTF"
       ],
       "settings": {
         "color_scheme": "scheme-2",
