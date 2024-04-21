@@ -1,11 +1,152 @@
-<p>TESTING</p>
-{% for product in collections['all'].products %}
-  {{- product.title | link_to: product.url }}
+{% stylesheet %}
+  .button.random-product-to-cart {
+    background-color: #fce477;
+    border: 0;
+    border-radius: 2px;
+    color: rgb(18, 18, 18);
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 0.06rem;
+    width: 100%;
+    height: 48px;
+    min-width: 0;
+    max-width: 1100px;
+    margin: 8px auto 28px auto;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .button.random-product-to-cart:hover {
+    background-color: #f7d76d;
+  }
+
+  .button.random-product-to-cart.loading span {
+    display: none;
+  }
+
+  .button.random-product-to-cart:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  form:has(> .button.random-product-to-cart) {
+    padding: 0 5rem;
+  }
+
+  @media (max-width: 749px) {
+    form:has(> .button.random-product-to-cart) {
+      padding: 0 1.5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% assign product_data = '' %}
+
+{% for product in collections.all.products %}
+  {% assign product_data = product_data
+    | append: product.id
+    | append: '-'
+    | append: product.selected_or_first_available_variant.id
+    | append: ','
+  %}
 {% endfor %}
+
+{% assign product_data = product_data | split: ',' %}
+
+{% assign randomNumber = 'now' | date: '%N' | modulo: product_data.size %}
+
+{% assign first_random_product = product_data[randomNumber] %}
+
+{% assign first_random_product_id = first_random_product | split: '-' | first %}
+{% assign first_random_variant_id = first_random_product | split: '-' | last %}
+
+<product-form
+  id="randomProductForm"
+  data-section-id="{{ section.id }}"
+>
+  <form
+    method="post"
+    action="/cart/add"
+    id="{{ section.id }}{{ first_random_product_id }}"
+    accept-charset="UTF-8"
+    class="form"
+    enctype="multipart/form-data"
+    novalidate="novalidate"
+    data-type="add-to-cart-form"
+  >
+    <!-- ID above is section ID concatenated with prduct id -->
+    <input type="hidden" name="form_type" value="product">
+    <input type="hidden" name="utf8" value="✓">
+    <input type="hidden" name="id" value="{{ first_random_variant_id }}">
+
+    <button
+      id="{{ section.id }}{{ first_random_product_id }}-submit"
+      type="submit"
+      name="add"
+      class="quick-add__submit button random-product-to-cart"
+      aria-haspopup="dialog"
+      aria-labelledby="
+        {{ section.id }}{{ first_random_product_id }}-submit
+        {{ section.id }}-{{ first_random_product_id }}
+      "
+      aria-live="polite"
+      data-sold-out-message="true"
+    >
+      <span>ADD RANDOM JELLY BEAN TO CART</span>
+
+      {%- render 'loading-spinner' -%}
+    </button>
+    <input type="hidden" name="product-id" value="{{ first_random_product_id}}">
+    <input type="hidden" name="section-id" value="{{ section.id }}">
+  </form>
+</product-form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // Each element in the product_data json is in the format "{product id}-{variant id}"
+    const productData = {{ product_data | json }};
+
+    const randomProductForm = document.querySelector('#randomProductForm');
+    const button = randomProductForm.querySelector('button');
+
+    function changeRandomProduct() {
+
+      let randomProduct = productData[Math.floor(Math.random() * productData.length)];
+      randomProduct = randomProduct.split('-');
+      let productId = randomProduct[0];
+      let variantId = randomProduct[1];
+
+      randomProductForm.querySelector('form').id = `{{ section.id }}${productId}`;
+      randomProductForm.querySelector('input[name="id"]').value = variantId;
+      button.id = `{{ section.id }}${productId}-submit`;
+      button.setAttribute('aria-labelledby', `{{ section.id }}${productId}-submit {{ section.id }}-${productId}`);
+      randomProductForm.querySelector('input[name="product-id"]').value = productId;
+    }
+
+    button.addEventListener('click', function(event) {
+      changeRandomProduct();
+    });
+
+  });
+</script>
 
 {% schema %}
 {
   "name": "Add Random Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "get-products-from-REST-API",
+      "label": "Enable"
+    }
+  ],
   "presets": [
     {
       "name": "Add Random Product"
