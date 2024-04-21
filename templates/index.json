@@ -1,7 +1,7 @@
 {
   "sections": {
-    "test_BQJUG6": {
-      "type": "test",
+    "random_product_BQJUG6": {
+      "type": "random-product",
       "settings": {
       }
     },
@@ -35,7 +35,7 @@
     }
   },
   "order": [
-    "test_BQJUG6",
+    "random_product_BQJUG6",
     "featured_collection"
   ]
 }
